@@ -1,0 +1,5 @@
+{
+  "name": "OmniFeed AI",
+  "description": "Un agregador de redes sociales inteligente. Desliza para clasificar y dibuja un círculo para guardar. Impulsado por Gemini.",
+  "requestFramePermissions": []
+}
