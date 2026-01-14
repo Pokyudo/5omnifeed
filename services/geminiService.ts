@@ -11,61 +11,61 @@ const getAiClient = () => {
 };
 
 export const generateMockFeed = async (interests: string[] = ['Tech', 'Design', 'AI', 'Startups']): Promise<SocialPost[]> => {
-  const ai = getAiClient();
+  // const ai = getAiClient();
   
-  const prompt = `
-    Generate 5 distinct social media posts for a user interested in: ${interests.join(', ')}.
-    Vary the platforms (twitter, instagram, linkedin, news).
-    The content should be in Spanish or English (mixed is fine).
-    Ensure distinct styles:
-    - Twitter: short, hashtag heavy.
-    - Linkedin: professional, slightly longer.
-    - Instagram: visual focused description.
+  // const prompt = `
+  //   Generate 5 distinct social media posts for a user interested in: ${interests.join(', ')}.
+  //   Vary the platforms (twitter, instagram, linkedin, news).
+  //   The content should be in Spanish or English (mixed is fine).
+  //   Ensure distinct styles:
+  //   - Twitter: short, hashtag heavy.
+  //   - Linkedin: professional, slightly longer.
+  //   - Instagram: visual focused description.
     
-    Return a JSON array.
-  `;
+  //   Return a JSON array.
+  // `;
 
-  try {
-    const response = await ai.models.generateContent({
-      model: 'gemini-3-flash-preview',
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              id: { type: Type.STRING },
-              platform: { type: Type.STRING, enum: ['twitter', 'instagram', 'linkedin', 'news'] },
-              author: { type: Type.STRING },
-              handle: { type: Type.STRING },
-              content: { type: Type.STRING },
-              imageUrl: { type: Type.STRING }, // Just a description for now, we will map to picsum
-              timestamp: { type: Type.STRING },
-              likes: { type: Type.INTEGER },
-              comments: { type: Type.INTEGER },
-              tags: { type: Type.ARRAY, items: { type: Type.STRING } }
-            }
-          }
-        }
-      }
-    });
+  // try {
+  //   const response = await ai.models.generateContent({
+  //     model: 'gemini-3-flash-preview',
+  //     contents: prompt,
+  //     config: {
+  //       responseMimeType: "application/json",
+  //       responseSchema: {
+  //         type: Type.ARRAY,
+  //         items: {
+  //           type: Type.OBJECT,
+  //           properties: {
+  //             id: { type: Type.STRING },
+  //             platform: { type: Type.STRING, enum: ['twitter', 'instagram', 'linkedin', 'news'] },
+  //             author: { type: Type.STRING },
+  //             handle: { type: Type.STRING },
+  //             content: { type: Type.STRING },
+  //             imageUrl: { type: Type.STRING }, // Just a description for now, we will map to picsum
+  //             timestamp: { type: Type.STRING },
+  //             likes: { type: Type.INTEGER },
+  //             comments: { type: Type.INTEGER },
+  //             tags: { type: Type.ARRAY, items: { type: Type.STRING } }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   });
 
-    const data = JSON.parse(response.text || '[]');
+  //   const data = JSON.parse(response.text || '[]');
     
-    // Enrich with placeholder images and avatars
-    return data.map((post: any, index: number) => ({
-      ...post,
-      id: post.id || `post-${Date.now()}-${index}`,
-      avatarUrl: `https://picsum.photos/seed/${post.handle}/100/100`,
-      imageUrl: post.platform === 'instagram' || post.platform === 'news' 
-        ? `https://picsum.photos/seed/${post.id}/600/800` 
-        : undefined
-    }));
+  //   // Enrich with placeholder images and avatars
+  //   return data.map((post: any, index: number) => ({
+  //     ...post,
+  //     id: post.id || `post-${Date.now()}-${index}`,
+  //     avatarUrl: `https://picsum.photos/seed/${post.handle}/100/100`,
+  //     imageUrl: post.platform === 'instagram' || post.platform === 'news'
+  //       ? `https://picsum.photos/seed/${post.id}/600/800`
+  //       : undefined
+  //   }));
 
-  } catch (error) {
-    console.error("Error generating feed:", error);
+  // } catch (error) {
+  //   console.error("Error generating feed:", error);
     // Fallback data if API fails
     return [
       {
@@ -94,7 +94,7 @@ export const generateMockFeed = async (interests: string[] = ['Tech', 'Design', 
         tags: ['Travel', 'Art']
       }
     ];
-  }
+  // }
 };
 
 export const analyzeUserPreferences = async (history: { postId: string; interaction: string }[]) => {
